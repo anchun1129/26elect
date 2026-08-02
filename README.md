@@ -121,7 +121,8 @@ git push -u origin feature/你的分支名
 exports.main = async (event, context) => {
   const { OPENID } = cloud.getWXContext()
   return { openid: OPENID }
-}```
+}
+```
 所有业务云函数需校验权限（如只能查自己的记录）。
 
 🤖 AI 同学
