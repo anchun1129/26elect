@@ -26,12 +26,13 @@
 
 点击“确定”，进入项目。
 
-### 4. 安装前端依赖（居民端 / 管理员端 / UI 同学必做）
+### 4. 安装前端依赖（居民端 / 管理员端 / UI 同学必做）(按实际情况选做)
 在终端中进入项目内的 miniprogram 目录：
 
-bash
+```bash
 cd miniprogram
 npm install
+```
 然后回到微信开发者工具，点击菜单栏 “工具” → “构建 npm”，等待提示“构建完成”。
 
 云函数同学（AI、后端）如果只写云函数，可以暂时跳过这步。
@@ -41,8 +42,9 @@ npm install
 
 如果提示“环境未找到”，请在 miniprogram/app.js 中将 env 的值改为正确的环境 ID。
 
+
 ## 二、项目结构说明
-text
+```text
 ebike-detection/
 ├── miniprogram/                 # 小程序前端（页面、组件、样式）
 │   ├── pages/                   # 页面目录
@@ -56,18 +58,23 @@ ebike-detection/
 ├── project.config.json          # 项目配置（勿删）
 ├── .gitignore                   # Git 忽略规则
 └── README.md                    # 你正在看的文档
+```
 ## 三、日常开发流程
 ### 1. 开工前：拉取最新代码
-bash
+打开本地仓库的git bash
+```bash
 git checkout main
 git pull origin main
+```
 ### 2. 创建你的开发分支（首次）
 分支命名建议：feature/名字缩写-功能
+例如：
 
 feature/wyx-ai
 
-bash
+```bash
 git checkout -b feature/你的分支名
+```
 ### 3. 开始写代码
 前端：在 miniprogram/pages 下编写页面，可使用 Vant Weapp 组件（用法见后文）。
 
@@ -76,10 +83,11 @@ git checkout -b feature/你的分支名
 注意：每次修改云函数后，需右键该云函数文件夹 → “上传并部署：云端安装依赖” 才能生效。
 
 ### 4. 提交代码
-bash
+```bash
 git add .
 git commit -m "简要描述你的改动"
 git push -u origin feature/你的分支名
+```
 每天至少提交一次，避免代码丢失。
 
 ### 5. 发起 Pull Request（合并到 main）(后续步骤暂时不需要)
@@ -97,10 +105,11 @@ git push -u origin feature/你的分支名
 
 在 app.json 中按需注册组件：
 
-json
+```json
 "usingComponents": {
   "van-button": "@vant/weapp/button/index"
 }
+```
 调试时点击“预览”生成二维码，手机扫码测试；真机调试 可查看手机端日志。
 
 ☁️ 后端同学（云开发）
@@ -108,11 +117,11 @@ json
 
 云函数模板：
 
-javascript
+```javascript
 exports.main = async (event, context) => {
   const { OPENID } = cloud.getWXContext()
   return { openid: OPENID }
-}
+}```
 所有业务云函数需校验权限（如只能查自己的记录）。
 
 🤖 AI 同学
