@@ -1,0 +1,21 @@
+# 微信开发者工具生成
+miniprogram/miniprogram_npm/
+.idea/
+
+# Node依赖（云函数内的自己保留）
+node_modules/
+miniprogram/node_modules/
+
+# 云函数本地依赖（它们的 node_modules 各自保留，不能忽略）
+!cloudfunctions/*/node_modules/
+
+# 日志和临时文件
+*.log
+.DS_Store
+Thumbs.db
+
+# 云开发本地缓存
+cloudfunctions/*/.build/
+
+# 上传时的临时打包
+dist/
