@@ -14,7 +14,7 @@
 - 注册github账户
 
 ### 2. 克隆项目（从github上克隆到本地）
-
+- 
 ### 3. 用微信开发者工具打开项目
 启动微信开发者工具，扫码登录。
 
@@ -67,7 +67,7 @@ git checkout main
 git pull origin main
 ```
 ### 2. 创建你的开发分支（首次）
-分支命名建议：feature/名字缩写-功能
+在github仓库界面操作，分支命名建议：feature/名字缩写-功能，
 例如：
 
 feature/wyx-ai
@@ -86,18 +86,19 @@ git checkout -b feature/你的分支名
 ```bash
 git add .
 git commit -m "简要描述你的改动"
-git push -u origin feature/你的分支名
+git push -u origin feature/你的分支名（首次需要关联，之后可以去掉-u）
 ```
 每天至少提交一次，避免代码丢失。
 
-### 5. 发起 Pull Request（合并到 main）(后续步骤暂时不需要)
+
+### 5. 发起 Pull Request（合并到 main）
 在 GitHub 页面上切换到你的分支，点击 “Compare & pull request”。
 
 填写改了什么、测试情况。
 
-指定一位管理员（项目经理或后端负责人）作为 reviewer。
+指定一位管理员（anchun1129或者后端）作为 reviewer。
 
-审核通过后由管理员 Merge。
+审核通过后由管理员将代码合并到main分支
 
 ## 四、各角色开发指引（部分，具体看实际操作）
 🖥️ 前端同学（居民端 / 工作人员端）
