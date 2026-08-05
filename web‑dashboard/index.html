@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>电动车乱停放监测看板</title>
+    <style>
+        body{
+            font-family:Microsoft Yahei;
+            padding:24px;
+            background:#f3f4f6;
+            margin:0;
+        }
+        h1{
+            color:#1f2937;
+        }
+        .container{
+            display:flex;
+            gap:16px;
+            flex-wrap:wrap;
+        }
+        .card{
+            background:#fff;
+            width:240px;
+            padding:22px;
+            border-radius:10px;
+            box-shadow:0 2px 10px rgba(0,0,0,0.1);
+        }
+        .warn{
+            color:#dc2626;
+            font-weight:bold;
+        }
+        .normal{
+            color:#16a34a;
+            font-weight:bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>电动车乱停放监测系统</h1>
+
+    <div class="container">
+        <div class="card">
+            <h3>今日检测总次数</h3>
+            <p style="font-size:26px">216</p>
+        </div>
+
+        <div class="card">
+            <h3>乱停放告警数量</h3>
+            <p class="warn" style="font-size:26px">27</p>
+        </div>
+
+        <div class="card">
+            <h3>正常停放数量</h3>
+            <p class="normal" style="font-size:26px">189</p>
+        </div>
+
+        <div class="card">
+            <h3>告警地点</h3>
+            <p>1号楼道、3号出入口、地下车库A区</p>
+        </div>
+    </div>
+
+    <h2 style="margin-top:40px">实时告警列表</h2>
+    <div class="card" style="width:95%;">
+        <p>【告警 14:23】3号出入口检测到电动车违规停放</p>
+        <p>【告警 14:18】1号楼道检测到电动车违规停放</p>
+        <p>【正常 14:10】2号楼道停放合规</p>
+    </div>
+
+</body>
+</html>
