@@ -1,0 +1,9 @@
+{
+    "name": "aiAudit",
+    "version": "1.0.0",
+    "description": "AI电动车违规审核",
+    "main": "index.js",
+    "dependencies": {
+      "wx-server-sdk": "latest"
+    }
+  }
