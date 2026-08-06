@@ -1,0 +1,79 @@
+<view class="page-container">
+  <view class="form-wrap">
+    <!-- 图片上传区 -->
+    <view class="section">
+      <view class="section-title">现场照片 <text class="required">*</text></view>
+      <view class="upload-area">
+        <view class="upload-list">
+          <view class="upload-item" wx:for="{{ images }}" wx:key="index">
+            <image src="{{ item }}" mode="aspectFill" class="upload-img"></image>
+            <view class="delete-btn" bindtap="deleteImage" data-index="{{ index }}">×</view>
+          </view>
+          <view class="upload-btn" bindtap="chooseImage" wx:if="{{ images.length < 3 }}">
+            <view class="plus">+</view>
+            <view class="upload-tip">上传照片</view>
+          </view>
+        </view>
+        <view class="upload-hint">最多上传3张，建议拍清车牌号和违规场景</view>
+      </view>
+    </view>
+
+    <!-- 地点选择 -->
+    <view class="section">
+      <view class="section-title">违规地点 <text class="required">*</text></view>
+      <view class="location-row" bindtap="chooseLocation">
+        <view class="location-icon">📍</view>
+        <view class="location-text {{ location ? '' : 'placeholder' }}">
+          {{ location || '点击选择位置' }}
+        </view>
+        <view class="location-arrow">›</view>
+      </view>
+    </view>
+
+    <!-- 违规类型 -->
+    <view class="section">
+      <view class="section-title">违规类型</view>
+      <van-radio-group value="{{ violationType }}" bind:change="onTypeChange">
+        <van-radio name="illegal_parking" icon-size="18px">违规停放</van-radio>
+        <van-radio name="illegal_charging" icon-size="18px">违规充电</van-radio>
+        <van-radio name="indoor_riding" icon-size="18px">室内骑行</van-radio>
+        <van-radio name="other" icon-size="18px">其他</van-radio>
+      </van-radio-group>
+    </view>
+
+    <!-- 补充描述 -->
+    <view class="section">
+      <view class="section-title">补充描述</view>
+      <van-field
+        value="{{ description }}"
+        type="textarea"
+        placeholder="请描述具体情况（选填）"
+        autosize
+        maxlength="200"
+        show-word-limit
+        bind:change="onDescChange"
+      />
+    </view>
+
+    <!-- 提交按钮 -->
+    <view class="submit-wrap">
+      <van-button
+        type="primary"
+        block
+        round
+        bind:click="submitReport"
+        loading="{{ submitting }}"
+        loading-text="提交中..."
+      >
+        提交上报
+      </van-button>
+    </view>
+  </view>
+
+  <!-- 底部TabBar -->
+  <van-tabbar active="{{ active }}" bind:change="onChange">
+    <van-tabbar-item icon="home-o">首页</van-tabbar-item>
+    <van-tabbar-item icon="edit">上报</van-tabbar-item>
+    <van-tabbar-item icon="user-o">我的</van-tabbar-item>
+  </van-tabbar>
+</view>
