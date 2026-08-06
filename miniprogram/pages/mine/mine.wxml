@@ -1,11 +1,24 @@
-<view class="page-container">
-  <!-- 页面内容区（后面再填） -->
-  <view class="content">我的页面</view>
-
-  <!-- 底部TabBar -->
-  <van-tabbar active="{{ active }}" bind:change="onChange">
-    <van-tabbar-item icon="home-o" data-path="/pages/home/home">首页</van-tabbar-item>
-    <van-tabbar-item icon="edit" data-path="/pages/report/report">上报</van-tabbar-item>
-    <van-tabbar-item icon="user-o" data-path="/pages/mine/mine">我的</van-tabbar-item>
-  </van-tabbar>
+<!-- 顶部个人信息区域 -->
+<view class="user-header">
+  <van-image
+    round
+    width="80"
+    height="80"
+    src="https://img.yzcdn.cn/vant/cat.jpeg"
+  />
+  <view class="user-info">
+    <view class="username">居民用户</view>
+    <view class="user-id">编号：Jumin001</view>
+  </view>
 </view>
+
+<!-- 功能菜单列表 -->
+<van-cell-group inset>
+  <van-cell title="我的上报记录" is-link bind:click="goRecord" />
+  <van-cell title="修改个人信息" is-link bind:click="goEditInfo" />
+  <van-cell title="使用帮助" is-link bind:click="goHelp" />
+  <van-cell title="退出登录" bind:click="logout" />
+</van-cell-group>
+
+<!-- 底部版本标注 -->
+<view class="version">当前版本：v1.0</view>
