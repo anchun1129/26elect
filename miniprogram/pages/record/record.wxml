@@ -1,0 +1,49 @@
+<!-- 如果记录数组不为空，展示列表 -->
+<view wx:if="{{recordList.length > 0}}" class="container">
+  <van-card
+    wx:for="{{recordList}}"
+    wx:key="id"
+    class="record-item"
+  >
+    <!-- 上报状态标签 -->
+    <view slot="title" class="card-title">
+      <text>工单{{item.id}}</text>
+      <van-tag type="{{item.tagType}}">{{item.status}}</van-tag>
+    </view>
+
+    <view class="card-content">
+      <view class="row">
+        <text class="label">问题类型：</text>
+        <text>{{item.type}}</text>
+      </view>
+      <view class="row">
+        <text class="label">上报地址：</text>
+        <text>{{item.address}}</text>
+      </view>
+      <view class="row">
+        <text class="label">问题描述：</text>
+        <text>{{item.desc}}</text>
+      </view>
+      <view class="row">
+        <text class="label">提交时间：</text>
+        <text>{{item.createTime}}</text>
+      </view>
+    </view>
+
+<!-- 图片预览，有多张图就循环展示 -->
+<view class="img-wrap" wx:if="{{item.images && item.images.length>0}}">
+      <image
+        wx:for="{{item.images}}"
+        wx:key="*this"
+        class="preview-img"
+        src="{{item}}"
+        mode="aspectFill"
+        bindtap="previewImage"
+        data-src="{{item}}"
+      />
+    </view>
+  </van-card>
+</view>
+
+<!-- 没有上报记录的时候展示空页面 -->
+<van-empty wx:else description="你还没有上报记录" />
