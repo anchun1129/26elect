@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "van-card": "@vant/weapp/card/index",
+    "van-tag": "@vant/weapp/tag/index",
+    "van-empty": "@vant/weapp/empty/index"
+  },
+  "navigationBarTitleText": "我的上报记录"
+}
