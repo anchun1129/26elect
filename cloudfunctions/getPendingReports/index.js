@@ -1,16 +1,24 @@
-// 云函数入口文件
-const cloud = require('wx-server-sdk')
+// getPendingReports/index.js
 
-cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV }) // 使用当前云环境
-
-// 云函数入口函数
 exports.main = async (event, context) => {
-  const wxContext = cloud.getWXContext()
+  // STATUS移到函数内部
+  const STATUS = {
+    pending:"pending",
+    ai_reviewed:"ai_reviewed",
+    confirmed:"confirmed",
+    processed:"processed",
+    rejected:"rejected"
+  }
 
   return {
-    event,
-    openid: wxContext.OPENID,
-    appid: wxContext.APPID,
-    unionid: wxContext.UNIONID,
+    success:true,
+    data:[
+      {
+        _id:"fake_p01",
+        status:STATUS.pending,
+        desc:"电动车乱停堵塞消防通道",
+        createTime:new Date()
+      }
+    ]
   }
 }

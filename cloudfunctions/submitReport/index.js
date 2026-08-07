@@ -1,16 +1,24 @@
-// 云函数入口文件
-const cloud = require('wx-server-sdk')
+// submitReport/index.js
+// 状态常量，对应任务3
+const STATUS = {
+  pending:"pending",
+  ai_reviewed:"ai_reviewed",
+  confirmed:"confirmed",
+  processed:"processed",
+  rejected:"rejected"
+}
 
-cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV }) // 使用当前云环境
-
-// 云函数入口函数
 exports.main = async (event, context) => {
-  const wxContext = cloud.getWXContext()
+  // event接收前端传过来：图片fileID、描述、位置等
+  console.log("收到上报参数",event)
 
+  // 假逻辑，暂时不真正写库、不上传图片
   return {
-    event,
-    openid: wxContext.OPENID,
-    appid: wxContext.APPID,
-    unionid: wxContext.UNIONID,
+    success:true,
+    data:{
+      _id:"fake_report_001",
+      status:STATUS.pending,
+      msg:"上报成功（假数据）"
+    }
   }
 }
