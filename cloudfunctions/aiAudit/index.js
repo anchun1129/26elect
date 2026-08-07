@@ -50,7 +50,7 @@ exports.main = async (event, context) => {
     const confidence = hit ? hit.score : 0;
     const detail = hit ? hit.keyword : '未识别到电动车';
     
-    // 5. 同时更新 reports 集合中的 AI 审核结果（可选，后续与后端协商）
+    // 5. 同时更新 reports 集合中的 AI 审核结果
     // 这里先只返回结果，由后端云函数调用本函数并更新状态
     
     return {
