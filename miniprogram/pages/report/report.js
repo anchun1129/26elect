@@ -203,14 +203,14 @@ Page({
   },
 
   //底部tab切换
-  onChange(e){
+  onChange(e) {
     const index = e.detail
-    if(index===0){
-      wx.switchTab({url:"/pages/index/index"})
-    }else if(index===1){
-      //当前上报页，不用跳转
-    }else if(index===2){
-      wx.switchTab({url:"/pages/mine/mine"})
+    if (index === 0) {
+      wx.reLaunch({ url: '/pages/home/home' })
+    } else if (index === 1) {
+      console.log('当前在上报页')
+    } else if (index === 2) {
+      wx.reLaunch({ url: '/pages/mine/mine' })
     }
   }
 })

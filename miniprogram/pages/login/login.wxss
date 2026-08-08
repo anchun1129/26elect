@@ -1,0 +1,85 @@
+.login-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #4fc3f7 0%, #29b6f6 50%, #0288d1 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 120rpx 60rpx 60rpx;
+  box-sizing: border-box;
+}
+
+/* 顶部区域 */
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.logo {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 40rpx;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 20rpx;
+  margin-bottom: 40rpx;
+}
+
+.app-name {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #fff;
+  letter-spacing: 4rpx;
+  margin-bottom: 16rpx;
+}
+
+.app-slogan {
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 2rpx;
+}
+
+/* 登录按钮区域 */
+.login-body {
+  width: 100%;
+  margin-top: 80rpx;
+}
+
+.login-btn {
+  width: 100%;
+  height: 96rpx;
+  background: #fff;
+  border-radius: 48rpx;
+  border: none;
+  color: #29b6f6;
+  font-size: 34rpx;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.15);
+}
+
+.login-btn::after {
+  border: none;
+}
+
+.agreement {
+  margin-top: 32rpx;
+  text-align: center;
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.agreement .link {
+  color: rgba(255, 255, 255, 0.95);
+  text-decoration: underline;
+  margin: 0 4rpx;
+}
+
+/* 底部 */
+.footer {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.4);
+}
