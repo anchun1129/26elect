@@ -1,0 +1,5 @@
+<van-card>
+  <view>上报时间：{{time}}</view>
+  <view>违规地点：{{address}}</view>
+  <status-tag status="{{status}}"></status-tag>
+</van-card>
