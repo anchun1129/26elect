@@ -1,0 +1,27 @@
+<!--pages/admin/detail/detail.wxml-->
+<view class="container">
+  <van-cell-group>
+    <van-cell title="工单ID" value="{{info.id}}" />
+    <van-cell title="工单状态" value="{{info.statusName}}" />
+    <van-cell title="提交时间" value="{{info.time}}" />
+    <van-cell title="问题描述" value="{{info.desc}}" />
+    <van-cell title="处置备注" value="{{info.remark || '暂无'}}" />
+  </van-cell-group>
+
+  <!-- 下面新增工单操作区域 -->
+  <view class="operate-box">
+    <van-cell-group>
+      <picker mode="selector" value="{{statusIndex}}" range="{{statusList}}" bindchange="changeStatus">
+        <van-cell title="修改工单状态" value="{{info.statusName}}" is-link />
+      </picker>
+    </van-cell-group>
+
+    <view class="remark-area">
+      <text class="label">填写处置备注</text>
+      <textarea placeholder="请输入处置备注" value="{{info.remark}}" bindinput="inputRemark"></textarea>
+    </view>
+
+    <van-button type="primary" block bindtap="saveWorkInfo" class="save-btn">保存修改</van-button>
+  </view>
+</view>
+

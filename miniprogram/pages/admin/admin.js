@@ -5,6 +5,7 @@ Page({
    * 页面的初始数据
    */
     data: {
+      loading: false,
       // 默认选中第一个tab：待处理
       activeTab: 0,
       // 三条测试工单数据
@@ -36,7 +37,12 @@ Page({
         time: '2026-08-06 18:40'
       }
       
-      ]
+      ],
+      showHandlePopup: false,
+      showRejectPopup: false,
+      currentReportId: "",
+      remark: "",
+      uploadImgList: []
     },
   
     // Tab点击切换方法
@@ -62,8 +68,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-      console.log('页面加载了');
+    console.log('页面加载了');
+    // 把工单列表存入全局，给详情页面读取
+    getApp().globalData.workList = this.data.orderList
   },
+  
 
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -112,5 +121,54 @@ Page({
    */
   onShareAppMessage() {
 
-  }
+  },
+
+  // 点击卡片跳转详情
+goDetail(e) {
+  const reportId = e.currentTarget.dataset.id
+  wx.navigateTo({
+    url: `/pages/admin/detail/detail?id=${reportId}`
+  })
+},
+
+// 打开处理弹窗
+openHandlePopup(e){
+  this.setData({
+    showHandlePopup:true,
+    currentReportId:e.currentTarget.dataset.id,
+    remark:""
+  })
+},
+closeHandlePopup(){
+  this.setData({showHandlePopup:false})
+},
+
+// 打开驳回弹窗
+openRejectPopup(e){
+  this.setData({
+    showRejectPopup:true,
+    currentReportId:e.currentTarget.dataset.id,
+    remark:""
+  })
+},
+closeRejectPopup(){
+  this.setData({showRejectPopup:false})
+},
+
+// 监听备注输入
+onRemarkChange(e){
+  this.setData({
+    remark:e.detail
+  })
+},
+
+submitHandle(){
+  wx.showToast({title:"静态页面，待对接接口"})
+  this.closeHandlePopup()
+},
+submitReject(){
+  wx.showToast({title:"静态页面，待对接接口"})
+  this.closeRejectPopup()
+}
+
 })

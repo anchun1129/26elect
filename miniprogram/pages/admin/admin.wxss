@@ -49,4 +49,39 @@ page {
   color: #999;
   font-size: 28rpx;
 }
+.loading-wrap{
+  padding:100rpx 0;
+  text-align:center;
+}
+.card-btn-group{
+  display:flex;
+  gap:16rpx;
+  margin-top:20rpx;
+  justify-content:flex-end;
+}
+.popup-content{
+  padding: 30rpx;
+  width: 100%;
+  box-sizing: border-box;
+}
+.popup-title{
+  font-size:32rpx;
+  font-weight:bold;
+  text-align:center;
+  margin-bottom:30rpx;
+}
+.upload-tip{
+  margin:20rpx 0 10rpx;
+  font-size:28rpx;
+  color:#666;
+}
+.btn-row{
+  display:flex;
+  gap:20rpx;
+  margin-top:30rpx;
+}
+.btn-row van-button{
+  flex:1;
+}
+
 

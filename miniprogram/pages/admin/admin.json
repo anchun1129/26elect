@@ -1,6 +1,13 @@
 {
   "usingComponents": {
-    "van-tag": "@vant/weapp/tag/index"
+    "van-tab": "@vant/weapp/tab/index",
+    "van-tabs": "@vant/weapp/tabs/index",
+    "van-popup": "@vant/weapp/popup/index",
+    "van-field": "@vant/weapp/field/index",
+    "van-button": "@vant/weapp/button/index",
+    "van-uploader": "@vant/weapp/uploader/index",
+    "van-loading": "@vant/weapp/loading/index"
   },
-  "enablePullDownRefresh": true
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark"
 }
