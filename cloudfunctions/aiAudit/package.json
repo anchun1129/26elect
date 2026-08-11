@@ -1,0 +1,17 @@
+{
+    "name": "aiaudit",
+    "version": "1.0.0",
+    "description": "AI电动车违规审核",
+    "main": "index.js",
+    "dependencies": {
+        "axios": "^1.19.0",
+        "wx-server-sdk": "latest"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "commonjs"
+}
