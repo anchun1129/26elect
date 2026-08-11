@@ -1,3 +1,4 @@
 <view>
   <van-button type="primary">测试Vant按钮</van-button>
 </view>
+<van-button type="primary">我是Vant按钮</van-button>

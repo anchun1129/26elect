@@ -1,0 +1,21 @@
+<!-- 顶部Tab切换栏 -->
+<view class="tab-wrap">
+  <view class="tab-item {{activeTab == 0 ? 'active' : ''}}" bindtap="changeTab" data-index="0">待处理</view>
+  <view class="tab-item {{activeTab == 1 ? 'active' : ''}}" bindtap="changeTab" data-index="1">处理中</view>
+  <view class="tab-item {{activeTab == 2 ? 'active' : ''}}" bindtap="changeTab" data-index="2">已办结</view>
+</view>
+
+<!-- 工单列表区域 -->
+<view class="order-list">
+  <!-- 有数据时展示列表 -->
+  <block wx:if="{{orderList.length > 0}}">
+    <view class="order-item" wx:for="{{orderList}}" wx:key="id" wx:if="{{item.type == activeTab}}">
+      <view class="order-title">{{item.title}}</view>
+      <van-tag type="{{item.tagColor}}" size="small">{{item.status}}</van-tag>
+      <view class="order-desc">问题描述：{{item.desc}}</view>
+      <view class="order-time">提交时间：{{item.time}}</view>
+    </view>
+  </block>
+  <!-- 数据为空时的空白提示 -->
+  <view wx:else class="empty-box">暂无工单数据</view>
+</view>
