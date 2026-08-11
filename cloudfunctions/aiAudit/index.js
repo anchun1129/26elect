@@ -2,7 +2,7 @@ const cloud = require('wx-server-sdk');
 const axios = require('axios');   // 需要安装依赖
 cloud.init();
 
-// 百度AI配置（不要提交到Git，后期可用云函数环境变量）
+// 百度AI配   ，用云函数环境变量）
 const BAIDU_API_KEY = process.env.BAIDU_API_KEY;
 const BAIDU_SECRET_KEY = process.env.BAIDU_SECRET_KEY;
 
@@ -46,21 +46,35 @@ exports.main = async (event, context) => {
       electricKeywords.some(kw => item.keyword.includes(kw))
     );
     
-    const isViolation = !!hit;
-    const confidence = hit ? hit.score : 0;
-    const detail = hit ? hit.keyword : '未识别到电动车';
+    // 在找到 hit 之后
+const CONFIDENCE_THRESHOLD = 0.7;  // 低于0.7的不自动判定违规
+//const isViolation = !!hit && hit.score >= CONFIDENCE_THRESHOLD;
+const confidence = hit ? hit.score : 0;
+const detail = hit ? hit.keyword : '未识别到电动车';
     
     // 5. 同时更新 reports 集合中的 AI 审核结果
-    // 这里先只返回结果，由后端云函数调用本函数并更新状态
+   
     
-    return {
-      code: 0,
-      data: {
-        isViolation,
-        confidence,
-        detail
-      }
-    };
+    // 返回风险等级
+let riskLevel = 'low'; // 低风险：明显无关
+if (hit) {
+  if (hit.score >= 0.7) {
+    riskLevel = 'high';   // 高风险：高置信度违规，需立即处理
+  } else {
+    riskLevel = 'medium'; // 中风险：AI不确定，转人工复核
+  }
+}
+
+return {
+  code: 0,
+  data: {
+    riskLevel,          // 'high' / 'medium' / 'low'
+    confidence,
+    detail,
+    allLabels: results.slice(0, 5).map(r => ({ keyword: r.keyword, score: r.score })),
+    suggestion: riskLevel === 'high' ? '建议立即处理' : (riskLevel === 'medium' ? '建议人工复核' : '可能为无效上报')
+  }
+};
   } catch (err) {
     console.error('AI审核失败:', err);
     return {
