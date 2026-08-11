@@ -1,10 +1,12 @@
 {
   "pages": [
+
     "pages/login/login",
+    "pages/admin/admin",
     "pages/home/home",
     "pages/index/index",
     "pages/report/report",
-    "pages/admin/admin",
+    
     "pages/mine/mine"
   ],
   "usingComponents": {
