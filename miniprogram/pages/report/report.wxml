@@ -7,7 +7,7 @@
         <view class="upload-list">
           <view class="upload-item" wx:for="{{ images }}" wx:key="index">
             <image src="{{ item }}" mode="aspectFill" class="upload-img"></image>
-            <view class="delete-btn" bindtap="deleteImage" data-index="{{ index }}">×</view>
+            <view class="delete-btn" bindtap="delImage" data-index="{{ index }}">×</view>
           </view>
           <view class="upload-btn" bindtap="chooseImage" wx:if="{{ images.length < 3 }}">
             <view class="plus">+</view>
@@ -18,19 +18,17 @@
       </view>
     </view>
 
-    <!-- 地点选择 -->
+    <!-- 地点输入（简化为手动输入，兼容云开发） -->
     <view class="section">
       <view class="section-title">违规地点 <text class="required">*</text></view>
-      <view class="location-row" bindtap="chooseLocation">
-        <view class="location-icon">📍</view>
-        <view class="location-text {{ location ? '' : 'placeholder' }}">
-          {{ location || '点击选择位置' }}
-        </view>
-        <view class="location-arrow">›</view>
-      </view>
+      <van-field
+        value="{{ location }}"
+        placeholder="例如：XX小区3号楼楼下"
+        bind:change="onLocInput"
+      />
     </view>
 
-    <!-- 违规类型 -->
+    <!-- 违规类型单选框 -->
     <view class="section">
       <view class="section-title">违规类型</view>
       <van-radio-group value="{{ violationType }}" bind:change="onTypeChange">
@@ -51,7 +49,7 @@
         autosize
         maxlength="200"
         show-word-limit
-        bind:change="onDescChange"
+        bind:change="onDescInput"
       />
     </view>
 
@@ -69,11 +67,4 @@
       </van-button>
     </view>
   </view>
-
-  <!-- 底部TabBar -->
-  <van-tabbar active="{{ active }}" bind:change="onChange">
-    <van-tabbar-item icon="home-o">首页</van-tabbar-item>
-    <van-tabbar-item icon="edit">上报</van-tabbar-item>
-    <van-tabbar-item icon="user-o">我的</van-tabbar-item>
-  </van-tabbar>
 </view>

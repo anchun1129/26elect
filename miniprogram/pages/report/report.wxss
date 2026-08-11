@@ -1,122 +1,82 @@
+/* pages/report/report.wxss */
 .page-container {
   min-height: 100vh;
-  background: #f5f7fa;
-  padding-bottom: 120rpx;
+  background-color: #f5f7fa;
+  padding: 20rpx 24rpx 120rpx;
+  box-sizing: border-box;
 }
-
 .form-wrap {
-  padding: 24rpx;
-}
-
-.section {
   background: #fff;
-  border-radius: 16rpx;
-  padding: 32rpx;
-  margin-bottom: 24rpx;
+  border-radius: 20rpx;
+  padding: 30rpx;
 }
-
+.section {
+  margin-bottom: 40rpx;
+}
 .section-title {
   font-size: 30rpx;
-  font-weight: 500;
   color: #333;
-  margin-bottom: 24rpx;
+  margin-bottom: 20rpx;
 }
-
 .required {
-  color: #ee0a24;
-  margin-left: 4rpx;
+  color: #f53f3f;
 }
 
-/* 图片上传 */
+/* 上传图片样式 */
 .upload-list {
   display: flex;
+  gap: 20rpx;
   flex-wrap: wrap;
-  gap: 16rpx;
 }
-
 .upload-item {
+  width: 160rpx;
+  height: 160rpx;
   position: relative;
-  width: 200rpx;
-  height: 200rpx;
 }
-
 .upload-img {
-  width: 200rpx;
-  height: 200rpx;
+  width: 100%;
+  height: 100%;
   border-radius: 12rpx;
 }
-
 .delete-btn {
   position: absolute;
-  top: -12rpx;
-  right: -12rpx;
+  top: -8rpx;
+  right: -8rpx;
   width: 40rpx;
   height: 40rpx;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0,0,0,0.6);
   color: #fff;
-  border-radius: 50%;
   text-align: center;
-  line-height: 36rpx;
+  line-height: 40rpx;
+  border-radius: 50%;
   font-size: 28rpx;
 }
-
 .upload-btn {
-  width: 200rpx;
-  height: 200rpx;
-  border: 2rpx dashed #ccc;
+  width: 160rpx;
+  height: 160rpx;
+  border: 2rpx dashed #ddd;
   border-radius: 12rpx;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #999;
 }
-
 .plus {
-  font-size: 60rpx;
-  line-height: 1;
-  margin-bottom: 8rpx;
+  font-size: 50rpx;
+  color: #ccc;
 }
-
 .upload-tip {
-  font-size: 24rpx;
-}
-
-.upload-hint {
   font-size: 22rpx;
+  color: #999;
+  margin-top: 8rpx;
+}
+.upload-hint {
+  font-size: 24rpx;
   color: #999;
   margin-top: 16rpx;
 }
 
-/* 地点选择 */
-.location-row {
-  display: flex;
-  align-items: center;
-  padding: 16rpx 0;
-}
-
-.location-icon {
-  font-size: 36rpx;
-  margin-right: 16rpx;
-}
-
-.location-text {
-  flex: 1;
-  font-size: 28rpx;
-  color: #333;
-}
-
-.location-text.placeholder {
-  color: #999;
-}
-
-.location-arrow {
-  font-size: 36rpx;
-  color: #ccc;
-}
-
 /* 提交按钮 */
 .submit-wrap {
-  margin-top: 48rpx;
-  padding: 0 24rpx;
+  margin-top: 60rpx;
 }

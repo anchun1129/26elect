@@ -1,6 +1,5 @@
 Page({
   data: {
-    active: 1,
     images: [],
     location: '',
     violationType: 'illegal_parking',
@@ -8,109 +7,97 @@ Page({
     submitting: false
   },
 
-  // TabBar切换
-  onChange(event) {
-    const index = event.detail;
-    const paths = ['/pages/home/home', '/pages/report/report', '/pages/mine/mine'];
-    wx.redirectTo({
-      url: paths[index]
-    });
-  },
-
-  // 选择图片
+  // 上传图片
   chooseImage() {
-    const remain = 3 - this.data.images.length;
     wx.chooseMedia({
-      count: remain,
+      count: 3,
       mediaType: ['image'],
       sourceType: ['album', 'camera'],
-      success: (res) => {
-        const newImages = res.tempFiles.map(f => f.tempFilePath);
+      success: res => {
+        const tempPaths = res.tempFiles.map(item => item.tempFilePath)
         this.setData({
-          images: [...this.data.images, ...newImages]
-        });
+          images: [...this.data.images, ...tempPaths]
+        })
       }
-    });
+    })
   },
 
-  // 删除图片
-  deleteImage(e) {
-    const index = e.currentTarget.dataset.index;
-    const images = [...this.data.images];
-    images.splice(index, 1);
-    this.setData({ images });
+  // 删除单张图片
+  delImage(e) {
+    const idx = e.currentTarget.dataset.index
+    let arr = this.data.images
+    arr.splice(idx, 1)
+    this.setData({ images: arr })
   },
 
-  // 选择位置
-  chooseLocation() {
-    wx.chooseLocation({
-      success: (res) => {
-        this.setData({
-          location: res.address || res.name
-        });
-      },
-      fail: () => {
-        wx.showToast({
-          title: '获取位置失败',
-          icon: 'none'
-        });
-      }
-    });
+  // 地点输入绑定
+  onLocInput(e) {
+    this.setData({ location: e.detail.value })
   },
 
-  // 违规类型改变
-  onTypeChange(event) {
+  // 描述输入绑定
+  onDescInput(e) {
+    this.setData({ description: e.detail.value })
+  },
+
+  // 违规类型单选切换
+  onTypeChange(e) {
     this.setData({
-      violationType: event.detail
-    });
+      violationType: e.detail
+    })
   },
 
-  // 描述改变
-  onDescChange(event) {
-    this.setData({
-      description: event.detail
-    });
-  },
-
-  // 提交上报
+  // 提交表单存入云开发数据库
   submitReport() {
-    // 校验
-    if (this.data.images.length === 0) {
-      wx.showToast({
-        title: '请至少上传一张照片',
-        icon: 'none'
-      });
-      return;
+    const { images, location, description, submitting } = this.data
+    // 防重复提交
+    if (submitting) return
+    // 表单校验
+    if (!location.trim()) {
+      wx.showToast({ title: '请填写违规地点', icon: 'none' })
+      return
     }
-    if (!this.data.location) {
-      wx.showToast({
-        title: '请选择违规地点',
-        icon: 'none'
-      });
-      return;
+    if (!description.trim()) {
+      wx.showToast({ title: '请描述违规情况', icon: 'none' })
+      return
+    }
+    if (images.length === 0) {
+      wx.showToast({ title: '至少上传一张照片', icon: 'none' })
+      return
     }
 
-    this.setData({ submitting: true });
+    this.setData({ submitting: true })
+    wx.showLoading({ title: '提交中...' })
 
-    // TODO: 这里后面接真实云函数提交
-    setTimeout(() => {
-      this.setData({ submitting: false });
-      wx.showToast({
-        title: '提交成功！',
-        icon: 'success'
-      });
-      // 提交成功后清空表单
+    const db = wx.cloud.database()
+    db.collection('report_list').add({
+      data: {
+        location: location,
+        description: description,
+        violationType: this.data.violationType,
+        imgList: images,
+        createTime: new Date(),
+        status: 'pending'
+      }
+    }).then(res => {
+      wx.hideLoading()
+      wx.showToast({ title: '上报成功' })
+      // 清空表单
       this.setData({
         images: [],
         location: '',
-        description: ''
-      });
-      // 2秒后跳回首页
+        description: '',
+        submitting: false
+      })
+      // 提交后自动切回首页tab
       setTimeout(() => {
-        wx.redirectTo({
-          url: '/pages/home/home'
-        });
-      }, 1500);
-    }, 1000);
+        wx.switchTab({ url: '/pages/home/home' })
+      }, 1200)
+    }).catch(err => {
+      wx.hideLoading()
+      wx.showToast({ title: '提交失败', icon: 'none' })
+      this.setData({ submitting: false })
+      console.error('提交报错', err)
+    })
   }
-});
+})
