@@ -1,30 +1,22 @@
 // getMyReports/index.js
-const STATUS = {
-  pending:"pending",
-  ai_reviewed:"ai_reviewed",
-  confirmed:"confirmed",
-  processed:"processed",
-  rejected:"rejected"
-}
+const cloud = require('wx-server-sdk')
+cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
+const db = cloud.database()
 
 exports.main = async (event, context) => {
-  // openid由云开发自动拿到
+  const { OPENID } = cloud.getWXContext()
+
+  const res = await db.collection("reports")
+    .where({
+      openid: OPENID
+    })
+    .orderBy("createTime","desc")
+    .get()
+
   return {
     success:true,
-    data:[
-      {
-        _id:"fake_r01",
-        status:STATUS.pending,
-        desc:"电动车占用人行通道停放",
-        createTime:new Date()
-      },
-      {
-        _id:"fake_r02",
-        status:STATUS.processed,
-        desc:"楼道内违规停放电动车",
-        createTime:new Date()
-      }
-    ]
+    data: res.data
   }
 }
+
 

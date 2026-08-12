@@ -1,5 +1,8 @@
 // submitReport/index.js
-// 状态常量，对应任务3
+const cloud = require('wx-server-sdk')
+cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
+const db = cloud.database()
+
 const STATUS = {
   pending:"pending",
   ai_reviewed:"ai_reviewed",
@@ -9,16 +12,47 @@ const STATUS = {
 }
 
 exports.main = async (event, context) => {
-  // event接收前端传过来：图片fileID、描述、位置等
-  console.log("收到上报参数",event)
+  const { OPENID } = cloud.getWXContext()
+  const { desc, imageFileID, location } = event
 
-  // 假逻辑，暂时不真正写库、不上传图片
+  let aiResultData = null
+  try {
+    // 按照文档：参数名叫 fileID
+    const aiRes = await cloud.callFunction({
+      name:"aiAudit",
+      data:{
+        fileID:imageFileID
+      }
+    })
+    // 取出里面 data 对象存入数据库 aiResult
+    aiResultData = aiRes.result.data
+  } catch(err){
+    return {
+      success:false,
+      msg:"AI审核调用失败",
+      error:err.message
+    }
+  }
+
+  const reportData = {
+    openid: OPENID,
+    desc: desc || "",
+    imageFileID: imageFileID || "",
+    location: location || null,
+    status: STATUS.ai_reviewed,
+    aiResult: aiResultData,
+    createTime: db.serverDate()
+  }
+
+  const res = await db.collection("reports").add({
+    data: reportData
+  })
+
   return {
     success:true,
     data:{
-      _id:"fake_report_001",
-      status:STATUS.pending,
-      msg:"上报成功（假数据）"
+      _id: res._id,
+      ...reportData
     }
   }
 }

@@ -1,7 +1,9 @@
 // getPendingReports/index.js
+const cloud = require('wx-server-sdk')
+cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
+const db = cloud.database()
 
 exports.main = async (event, context) => {
-  // STATUS移到函数内部
   const STATUS = {
     pending:"pending",
     ai_reviewed:"ai_reviewed",
@@ -10,15 +12,15 @@ exports.main = async (event, context) => {
     rejected:"rejected"
   }
 
+  const res = await db.collection("reports")
+    .where({
+      status: db.command.in([STATUS.pending, STATUS.ai_reviewed])
+    })
+    .orderBy("createTime","desc")
+    .get()
+
   return {
     success:true,
-    data:[
-      {
-        _id:"fake_p01",
-        status:STATUS.pending,
-        desc:"电动车乱停堵塞消防通道",
-        createTime:new Date()
-      }
-    ]
+    data: res.data
   }
 }
