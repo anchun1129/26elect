@@ -1,5 +1,6 @@
 {
   "pages": [
+
     "pages/admin/admin",
     "pages/admin/detail/detail",
     "pages/login/login",
@@ -8,7 +9,9 @@
     "pages/index/index",
     "pages/report/report",
     
-    "pages/mine/mine"
+    "pages/mine/mine",
+    "pages/record/record"
+    
   ],
   "usingComponents": {
     "van-button": "@vant/weapp/button/index",
