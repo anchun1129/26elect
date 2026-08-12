@@ -1,6 +1,5 @@
 Page({
   data: {
-    // 你的原有表单字段（和wxml一一对应）
     images: [],         //前端预览图片临时路径
     location: "",       //违规地点
     violationType: "",  //违规类型radio值
@@ -23,7 +22,7 @@ Page({
     wx.cloud.callFunction({
       name:"login",
       success:res=>{
-        const uid = res.result.userId
+        const uid = res.result.openid 
         this.setData({userId: uid})
         wx.setStorageSync("userId", uid)
       },
@@ -172,33 +171,43 @@ Page({
 
     //全部审核通过，写入reports集合
     const db = wx.cloud.database()
-    try{
+    try {
       await db.collection("reports").add({
-        data:{
+        data: {
           userId: this.data.userId,
           location: this.data.location,
           violationType: this.data.violationType,
           description: this.data.description,
           imgFileIds: this.data.fileIdList,
+          status: "pending",           // 初始状态：待审核
           createTime: db.serverDate()
         }
       })
       wx.hideLoading()
-      wx.showToast({title:"上报成功"})
-      //提交成功清空表单
+      wx.showToast({ title: "上报成功！", icon: "success" })
+  
+      // 提交成功清空表单
       this.setData({
-        images:[],
-        fileIdList:[],
-        location:"",
-        violationType:"",
-        description:"",
-        submitting:false
+        images: [],
+        fileIdList: [],
+        location: "",
+        violationType: "",
+        description: "",
+        submitting: false
       })
-    }catch(err){
+  
+      // 2秒后跳转到"我的上报记录"
+      setTimeout(() => {
+        wx.navigateTo({
+          url: '/pages/record/record'
+        })
+      }, 1500)
+  
+    } catch (err) {
       wx.hideLoading()
-      this.setData({submitting:false})
-      wx.showToast({title:"提交保存失败",icon:"none"})
-      console.error("写入reports报错",err)
+      this.setData({ submitting: false })
+      wx.showToast({ title: "提交保存失败", icon: "none" })
+      console.error("写入reports报错", err)
     }
   },
 

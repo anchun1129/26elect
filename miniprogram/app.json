@@ -1,13 +1,13 @@
 {
   "pages": [
-
     "pages/login/login",
-    "pages/admin/admin",
     "pages/home/home",
     "pages/index/index",
     "pages/report/report",
     
-    "pages/mine/mine"
+    "pages/mine/mine",
+    "pages/record/record"
+    
   ],
   "usingComponents": {
     "van-button": "@vant/weapp/button/index",
