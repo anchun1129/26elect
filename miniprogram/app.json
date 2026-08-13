@@ -1,11 +1,13 @@
 {
   "pages": [
+    "pages/login/login",
     "pages/home/home",
     "pages/index/index",
     "pages/report/report",
+    
     "pages/mine/mine",
-    "pages/record/record",
-    "pages/myOrder/myOrder"
+    "pages/record/record"
+    
   ],
   "usingComponents": {
     "van-card": "/miniprogram_npm/@vant/weapp/card/index",
@@ -14,6 +16,14 @@
     "van-tag": "/miniprogram_npm/@vant/weapp/tag/index",
     "van-empty": "/miniprogram_npm/@vant/weapp/empty/index",
     "van-image": "/miniprogram_npm/@vant/weapp/image/index"
+  },
+  "requiredPrivateInfos": [
+    "chooseLocation"
+  ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于上报时选择违规地点"
+    }
   },
   "window": {
     "backgroundColor": "#F6F6F6",

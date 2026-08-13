@@ -4,6 +4,22 @@ Page({
     openid: "",
     totalNum: 0,
     finishNum: 0
+    active: 2
+  },
+  onChange(e) {
+    const index = e.detail
+    if (index === 0) {
+      wx.reLaunch({
+        url: '/pages/home/home'
+      })
+    } else if (index === 1) {
+      wx.reLaunch({
+        url: '/pages/report/report'
+      })
+    } else if (index === 2) {
+      // 当前在我的页面，不做跳转
+      console.log('当前已在我的页面')
+    }
   },
 
   onLoad() {
