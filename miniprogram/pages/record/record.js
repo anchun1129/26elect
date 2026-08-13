@@ -16,26 +16,61 @@ Page({
   async getRecordList() {
     wx.showLoading({ title: "加载中" })
     try {
-      // 等队友云函数 getMyReport 就绪再打开下面代码
-      /*
       const res = await wx.cloud.callFunction({
-        name: "getMyReport"
+        name: "getMyReports" 
       })
-      if(res.result.success){
+
+      if (res.result.success) {
+        // 遍历数据，把英文状态变成好看的颜色和中文
+        const formattedList = res.result.data.map(item => {
+          let tagType = 'default';
+          let statusText = '';
+
+          // 根据不同的 status 翻译成 Vant 的 tag 颜色类型和中文字
+          switch(item.status) {
+            case 'pending':
+              tagType = 'warning';
+              statusText = '待处理';
+              break;
+            case 'ai_reviewed':
+              tagType = 'primary';
+              statusText = '审核中';
+              break;
+            case 'confirmed':
+            case 'processed':
+              tagType = 'success';
+              statusText = '已处理';
+              break;
+            case 'rejected':
+              tagType = 'danger';
+              statusText = '已驳回';
+              break;
+            default:
+              tagType = 'default';
+              statusText = '未知状态';
+          }
+
+          return {
+            ...item,
+            tagType: tagType,
+            status: statusText,
+            // 为了页面不显太空，我们临时加这两个假字段
+            type: '电动车违停',
+            address: '测试小区 1 号楼'
+          }
+        })
+
         this.setData({
-          recordList: res.result.data
+          recordList: formattedList
         })
       }
-      */
     } catch (err) {
-      wx.showToast({ title: "获取记录失败", icon: "none" })
-      console.error(err)
+      console.error("请求失败：", err)
     }
     wx.hideLoading()
   },
 
-  onLoad() {
-    // 云函数完成后取消注释
-    // this.getRecordList()
+  onLoad() {    
+    this.getRecordList()
   }
 })
