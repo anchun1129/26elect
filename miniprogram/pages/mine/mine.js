@@ -1,5 +1,9 @@
+const db = wx.cloud.database()
 Page({
   data: {
+    openid: "",
+    totalNum: 0,
+    finishNum: 0
     active: 2
   },
   onChange(e) {
@@ -17,32 +21,61 @@ Page({
       console.log('当前已在我的页面')
     }
   },
-  // 跳转我的上报记录页
+
+  onLoad() {
+    this.getUserOpenId()
+  },
+
+  // 获取用户openid
+  getUserOpenId() {
+    wx.cloud.callFunction({
+      name: "login"
+    }).then(res => {
+      const openid = res.result.openid
+      this.setData({ openid })
+      this.queryMyReport(openid)
+    })
+  },
+
+  // 查询当前用户工单并统计
+  queryMyReport(openid) {
+    db.collection("report_list")
+      .where({
+        _openid: openid
+      })
+      .get()
+      .then(res => {
+        const allList = res.data
+        const total = allList.length
+        const finish = allList.filter(item => item.status === "finished").length
+        this.setData({
+          totalNum: total,
+          finishNum: finish
+        })
+      })
+  },
+
+  // 跳转我的上报记录（对应app.json注册的 myOrder 页面）
   goRecord() {
     wx.navigateTo({
-      url: '/pages/record/record'
+      url: "/pages/myOrder/myOrder"
     })
   },
-  // 跳转修改信息页
+
+  // 空占位函数
   goEditInfo() {
-    wx.navigateTo({
-      url: '/pages/editInfo/editInfo'
-    })
+    wx.showToast({ title: "功能开发中", icon: "none" })
   },
-  // 跳转帮助页
   goHelp() {
-    wx.navigateTo({
-      url: '/pages/help/help'
-    })
+    wx.showToast({ title: "功能开发中", icon: "none" })
   },
-  // 退出登录交互
   logout() {
     wx.showModal({
-      title: '提示',
-      content: '确定要退出登录吗？',
-      success(res) {
+      title: "提示",
+      content: "确定退出登录吗？",
+      success: res => {
         if (res.confirm) {
-          wx.showToast({ title: '已退出登录' })
+          wx.showToast({ title: "已退出" })
         }
       }
     })

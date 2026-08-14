@@ -1,0 +1,4 @@
+van-card {
+  border-radius: 6rpx;
+  margin: 10rpx 0;
+}
