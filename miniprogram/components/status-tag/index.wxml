@@ -1,0 +1,3 @@
+<van-tag type="{{status === 0 ? 'warning' : 'success'}}">
+  {{status === 0 ? '待审核' : '已办结'}}
+</van-tag>

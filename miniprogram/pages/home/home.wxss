@@ -1,7 +1,9 @@
-/* pages/home/home.wxss */.page-container {
+/* pages/home/home.wxss */
+.page-container {
   min-height: 100vh;
   background: #f5f7fa;
-  padding-bottom: 100rpx;
+  /* 底部留出原生tabBar高度，内容不被遮挡 */
+  padding-bottom: 120rpx;
   box-sizing: border-box;
 }
 
@@ -39,6 +41,7 @@
 .action-icon {
   font-size: 56rpx;
   margin-right: 24rpx;
+  /* 纯emoji表情，不需要外部字体，杜绝字体加载报错 */
 }
 
 .action-info {

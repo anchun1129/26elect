@@ -1,19 +1,25 @@
 <!-- 顶部个人信息区域 -->
-<view class="user-header">
-  <van-image
-    round
-    width="80"
-    height="80"
-    src="https://img.yzcdn.cn/vant/cat.jpeg"
-  />
-  <view class="user-info">
-    <view class="username">居民用户</view>
-    <view class="user-id">编号：Jumin001</view>
-  </view>
+<van-image 
+  round 
+  width="160rpx" 
+  height="160rpx" 
+  src="https://img.yzcdn.cn/vant/cat.jpeg"
+  style="margin: 30rpx 25rpx;"
+/>
+<view style="margin:0 25rpx 20rpx;">
+  <view class="username">居民用户</view>
+  <view class="user-id">编号：Jumin001</view>
 </view>
 
-<!-- 功能菜单列表 -->
-<van-cell-group inset>
+<!-- 数据卡片区域 -->
+<view style="margin: 0 25rpx;">
+  <van-card title="累计上报工单" desc="{{totalNum}} 条" />
+  <view style="height:20rpx;"></view>
+  <van-card title="已办结工单" desc="{{finishNum}} 条" />
+</view>
+
+<!-- 功能菜单列表 Vant Cell分组 -->
+<van-cell-group style="margin: 30rpx 25rpx; border-radius: 12rpx; overflow: hidden;">
   <van-cell title="我的上报记录" is-link bind:click="goRecord" />
   <van-cell title="修改个人信息" is-link bind:click="goEditInfo" />
   <van-cell title="使用帮助" is-link bind:click="goHelp" />
@@ -21,6 +27,7 @@
 </van-cell-group>
 
 <!-- 底部版本标注 -->
+<view class="version" style="text-align:center; margin-top:80rpx; color:#999; font-size:24rpx;">当前版本：v1.0</view>
 <view class="version">当前版本：v1.0</view>
 
 <!-- ========== 添加底部TabBar ========== -->
