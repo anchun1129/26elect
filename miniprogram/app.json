@@ -4,10 +4,9 @@
     "pages/home/home",
     "pages/index/index",
     "pages/report/report",
-    
-    "pages/mine/mine",
-    "pages/record/record"
-    
+    "pages/record/record",
+    "pages/admin/admin",
+    "pages/mine/mine"
   ],
   "usingComponents": {
     "van-card": "/miniprogram_npm/@vant/weapp/card/index",
@@ -16,6 +15,15 @@
     "van-tag": "/miniprogram_npm/@vant/weapp/tag/index",
     "van-empty": "/miniprogram_npm/@vant/weapp/empty/index",
     "van-image": "/miniprogram_npm/@vant/weapp/image/index"
+    "van-button": "@vant/weapp/button/index",
+    "van-field": "@vant/weapp/field/index",
+    "van-radio": "@vant/weapp/radio/index",
+    "van-radio-group": "@vant/weapp/radio-group/index",
+    "van-tabbar": "@vant/weapp/tabbar/index",
+    "van-tabbar-item": "@vant/weapp/tabbar-item/index",
+    "van-card": "@vant/weapp/card/index",
+    "van-tag": "@vant/weapp/tag/index",
+    "van-empty": "@vant/weapp/empty/index"
   },
   "requiredPrivateInfos": [
     "chooseLocation"
