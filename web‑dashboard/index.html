@@ -3,11 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>电动车乱停放监测看板</title>
-    <!-- 云开发 Web SDK CDN -->
-    <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
-    <script src="https://static.weixin.qq.com/cloud/js/cloud-web-sdk-v1.4.0.js"></script>
-    <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <script src="https://static.gtimg.com/cloud-base/sdk/1.10.0/cloudbase-web-sdk.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
     <style>
         body {
             padding:20px;
@@ -17,13 +14,13 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
-            margin-bottom:30px;
+            margin-bottom:24px;
         }
         .card {
             background: #fff;
             border-radius: 12px;
             padding:24px;
-            box-shadow: 0 2px 8px #00000015;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
         .warn{
             color:#d93025;
@@ -51,17 +48,14 @@
             <h3>今日检测总次数</h3>
             <p class="total-num">--</p>
         </div>
-
         <div class="card">
             <h3>乱停放告警数量</h3>
             <p class="warn-num warn">--</p>
         </div>
-
         <div class="card">
             <h3>正常停放数量</h3>
             <p class="normal-num normal">--</p>
         </div>
-
         <div class="card">
             <h3>告警地点</h3>
             <p class="place-text">--</p>
@@ -73,13 +67,12 @@
         <canvas id="pieChart"></canvas>
     </div>
 
-    <h2 style="margin-top:40px">实时告警列表</h2>
+    <h2 style="margin-top:24px">实时告警列表</h2>
     <div class="card list-wrap" style="width:95%;">
         <p>加载中...</p>
     </div>
 
 <script>
-// 模拟数据，本地调试用；上线对接云函数注释掉mockData
 const mockData = {
     total: 12,
     warnCount: 4,
@@ -94,35 +87,27 @@ const mockData = {
 
 let pieChart = null;
 
-async function loadBoardData(){
-    /* =====真实云开发代码，配置完安全来源再打开=====
-    wx.cloud.init({
-      env: "cloudbase-d6gsqrixe917ec638"
-    })
-    const res = await wx.cloud.callFunction({name:"boardStat"})
-    const data = res.result
-    console.log("拿到统计数据", data)
-    */
-    const data = mockData;
+function renderChart(data){
+    document.querySelector('.total-num').innerText = data.total;
+    document.querySelector('.warn-num').innerText = data.warnCount;
+    document.querySelector('.normal-num').innerText = data.normalCount;
+    document.querySelector('.place-text').innerText = data.warnPlaces.join('、');
 
-    //填充卡片数字
-    document.querySelector('.total-num').innerText = data.total
-    document.querySelector('.warn-num').innerText = data.warnCount
-    document.querySelector('.normal-num').innerText = data.normalCount
-    document.querySelector('.place-text').innerText = data.warnPlaces.join('、')
-
-    //渲染告警列表
-    let htmlStr = ""
+    let html = "";
     data.latest5.forEach(item=>{
-      const tag = item.status==='warn' ? '【告警】':'【正常】'
-      htmlStr += `<p>${tag} ${item.time} ${item.content}</p>`
+      const tag = item.status === "warn" ? "【告警】" : "【正常】";
+      html += `<p>${tag} ${item.time} ${item.content}</p>`
     })
-    document.querySelector('.list-wrap').innerHTML = htmlStr
+    document.querySelector('.list-wrap').innerHTML = html;
 
-    //绘制Chart.js饼图
+    if(typeof Chart === 'undefined'){
+        console.warn("Chart未加载，跳过饼图");
+        return;
+    }
+
     if(pieChart) pieChart.destroy();
     const ctx = document.getElementById('pieChart').getContext('2d');
-    pieChart = new Chart(ctx, {
+    pieChart = new Chart(ctx,{
         type:'pie',
         data:{
             labels:['违规告警','正常停放'],
@@ -135,9 +120,31 @@ async function loadBoardData(){
     })
 }
 
-window.onload = function(){
-  loadBoardData()
+async function start(){
+    // 如果云SDK不存在，直接用模拟数据
+    if(!window.cloudbase){
+        renderChart(mockData);
+        return;
+    }
+    const app = window.cloudbase.init({
+      env: "cloudbase-d6gsqrixe917ec638"
+    });
+    try{
+        const res = await app.callFunction({
+          name:"dashboardStats",
+          data:{}
+        })
+        renderChart(res.result);
+    }catch(err){
+        console.log("云函数调用失败，启用模拟数据", err);
+        renderChart(mockData);
+    }
 }
+
+// 延迟一小段时间再启动，等待外部脚本加载
+setTimeout(()=>{
+    start();
+}, 600);
 </script>
 </body>
 </html>
