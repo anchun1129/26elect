@@ -3,24 +3,10 @@ Page({
   data: {
     openid: "",
     totalNum: 0,
-    finishNum: 0
+    finishNum: 0,
     active: 2
   },
-  onChange(e) {
-    const index = e.detail
-    if (index === 0) {
-      wx.reLaunch({
-        url: '/pages/home/home'
-      })
-    } else if (index === 1) {
-      wx.reLaunch({
-        url: '/pages/report/report'
-      })
-    } else if (index === 2) {
-      // 当前在我的页面，不做跳转
-      console.log('当前已在我的页面')
-    }
-  },
+
 
   onLoad() {
     this.getUserOpenId()
@@ -38,27 +24,33 @@ Page({
   },
 
   // 查询当前用户工单并统计
-  queryMyReport(openid) {
-    db.collection("report_list")
-      .where({
-        _openid: openid
-      })
-      .get()
-      .then(res => {
-        const allList = res.data
-        const total = allList.length
-        const finish = allList.filter(item => item.status === "finished").length
-        this.setData({
-          totalNum: total,
-          finishNum: finish
+    // 查询当前用户工单并统计
+    queryMyReport(openid) {
+      db.collection("reports")   // ✅ 改为你真实存数据的集合 reports
+        .where({
+          _openid: openid        // ✅ 使用微信自动生成的 _openid 字段（最稳妥）
         })
-      })
-  },
+        .get()
+        .then(res => {
+          const allList = res.data
+          const total = allList.length
+          
+          // 统计“已办结”（兼容 processed 和 finished 两种状态）
+          const finish = allList.filter(item => 
+            item.status === "finished" || item.status === "processed"
+          ).length
+  
+          this.setData({
+            totalNum: total,
+            finishNum: finish
+          })
+        })
+    },
 
-  // 跳转我的上报记录（对应app.json注册的 myOrder 页面）
-  goRecord() {
+   // 跳转到我的上报记录页面
+   goRecord() {
     wx.navigateTo({
-      url: "/pages/myOrder/myOrder"
+      url: '/pages/record/record'
     })
   },
 
