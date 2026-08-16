@@ -3,14 +3,12 @@ const cloud = require('wx-server-sdk')
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 const db = cloud.database()
 
-// 和其他云函数保持一致：英文状态值
 const ALLOW_STATUS = ['pending', 'ai_reviewed', 'confirmed', 'processed', 'rejected']
 
 exports.main = async (event, context) => {
-  const { reportId, status, openid, templateId } = event
+  const { reportId, status, processImageFileID, userOpenid, templateId } = event
   console.log('更新举报状态入参：', event)
 
-  // 1. 参数校验
   if (!reportId || !status) {
     return { success: false, message: '缺少参数 reportId 或者 status' }
   }
@@ -19,43 +17,57 @@ exports.main = async (event, context) => {
   }
 
   try {
-    // 2. 更新举报状态，使用服务器时间
-    const res = await db.collection('reports').doc(reportId).update({
-      data: {
-        status: status,
-        updateTime: db.serverDate()
-      }
-    })
-    console.log('数据库更新结果', res.stats)
+    const updateData = {
+      status: status,
+      updateTime: db.serverDate()
+    }
+    if (processImageFileID && processImageFileID.trim()) {
+      updateData.processImageFileID = processImageFileID.trim()
+    }
 
-    // 3. 如果传了推送所需参数，自动发送订阅通知
+    const updateRes = await db.collection('reports')
+      .doc(reportId)
+      .update({ data: updateData })
+
+    if(updateRes.stats.updated === 0){
+      return {
+        success: false,
+        message: '未找到该举报记录，更新失败'
+      }
+    }
+
+    // 发送订阅消息，单独捕获异常，消息失败不影响主流程
     let sendMsgResult = null
-    if (openid && templateId) {
-      sendMsgResult = await cloud.callFunction({
-        name: 'sendSubscribeMessage',
-        data: {
-          openid,
-          templateId,
-          reportId,
-          reportStatus: status
-        }
-      })
-      console.log('订阅消息推送结果：', sendMsgResult.result)
+    if (userOpenid && templateId) {
+      try{
+        sendMsgResult = await cloud.callFunction({
+          name: 'sendSubscribeMessage',
+          data: {
+            openid: userOpenid,
+            templateId: templateId,
+            reportId: reportId,
+            reportStatus: status
+          }
+        })
+        console.log('订阅消息推送成功', sendMsgResult)
+      }catch(msgErr){
+        console.error('订阅消息推送失败', msgErr)
+        // 不阻断更新流程
+      }
     }
 
     return {
       success: true,
-      updated: res.stats.updated,
+      message: '举报状态更新成功',
+      updated: updateRes.stats.updated,
       sendMsgResult
     }
   } catch (err) {
-    console.error('更新举报状态异常：', err)
-    let msg = '更新失败'
-    if (err.errCode === -1) msg = '该举报记录不存在'
+    console.error('更新举报状态失败', err)
     return {
       success: false,
-      message: msg,
-      error: err
+      message: '更新失败',
+      error: err.message
     }
   }
 }
