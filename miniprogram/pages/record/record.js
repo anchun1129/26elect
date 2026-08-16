@@ -4,59 +4,60 @@ Page({
     recordList: []
   },
 
-  // 图片放大预览
-  previewImage(e) {
+   // 图片放大预览
+   previewImage(e) {
     const src = e.currentTarget.dataset.src
+    const list = e.currentTarget.dataset.list || [src] // 如果没传list，就把当前图当成单图数组
     wx.previewImage({
-      urls: [src]
+      urls: list,      // 传全部图片，支持左右滑动查看
+      current: src     // 当前点击的那张图作为第一张
     })
   },
 
   // 待对接云函数：获取我的上报记录
+  // 升级版：获取我的上报记录 (融合了myOrder的格式化写法)
   async getRecordList() {
     wx.showLoading({ title: "加载中" })
     try {
       const res = await wx.cloud.callFunction({
-        name: "getMyReports" 
+        name: "getMyReports",
+        data: {
+          page: 1,
+          pageSize: 20
+        }
       })
 
       if (res.result.success) {
-        // 遍历数据，把英文状态变成好看的颜色和中文
-        const formattedList = res.result.data.map(item => {
+        const rawList = res.result.data || []
+
+        const formattedList = rawList.map(item => {
           let tagType = 'default';
           let statusText = '';
-
-          // 根据不同的 status 翻译成 Vant 的 tag 颜色类型和中文字
           switch(item.status) {
-            case 'pending':
-              tagType = 'warning';
-              statusText = '待处理';
-              break;
-            case 'ai_reviewed':
-              tagType = 'primary';
-              statusText = '审核中';
-              break;
+            case 'pending': tagType = 'warning'; statusText = '待处理'; break;
+            case 'ai_reviewed': tagType = 'primary'; statusText = '审核中'; break;
             case 'confirmed':
-            case 'processed':
-              tagType = 'success';
-              statusText = '已处理';
-              break;
-            case 'rejected':
-              tagType = 'danger';
-              statusText = '已驳回';
-              break;
-            default:
-              tagType = 'default';
-              statusText = '未知状态';
+            case 'processed': tagType = 'success'; statusText = '已处理'; break;
+            case 'rejected': tagType = 'danger'; statusText = '已驳回'; break;
+            default: tagType = 'default'; statusText = '未知状态';
+          }
+
+          let formattedTime = '';
+          if (item.createTime) {
+            const t = new Date(item.createTime);
+            const y = t.getFullYear();
+            const m = (t.getMonth() + 1).toString().padStart(2, '0');
+            const d = t.getDate().toString().padStart(2, '0');
+            const h = t.getHours().toString().padStart(2, '0');
+            const min = t.getMinutes().toString().padStart(2, '0');
+            formattedTime = `${y}-${m}-${d} ${h}:${min}`;
           }
 
           return {
             ...item,
             tagType: tagType,
             status: statusText,
-            // 为了页面不显太空，我们临时加这两个假字段
-            type: '电动车违停',
-            address: '测试小区 1 号楼'
+            createTime: formattedTime
           }
         })
 
@@ -65,7 +66,8 @@ Page({
         })
       }
     } catch (err) {
-      console.error("请求失败：", err)
+      wx.showToast({ title: "获取记录失败", icon: "none" })
+      console.error(err)
     }
     wx.hideLoading()
   },
