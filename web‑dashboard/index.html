@@ -2,6 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="SameSite" content="None">
     <title>电动车乱停放监测看板</title>
     <script src="https://static.gtimg.com/cloud-base/sdk/1.10.0/cloudbase-web-sdk.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
@@ -46,19 +47,19 @@
     <div class="container">
         <div class="card">
             <h3>今日检测总次数</h3>
-            <p class="total-num">--</p>
+            <p id="totalCount">--</p>
         </div>
         <div class="card">
             <h3>乱停放告警数量</h3>
-            <p class="warn-num warn">--</p>
+            <p id="warnCount" class="warn">--</p>
         </div>
         <div class="card">
             <h3>正常停放数量</h3>
-            <p class="normal-num normal">--</p>
+            <p id="safeCount" class="normal">--</p>
         </div>
         <div class="card">
             <h3>告警地点</h3>
-            <p class="place-text">--</p>
+            <p id="locationText">--</p>
         </div>
     </div>
 
@@ -68,7 +69,7 @@
     </div>
 
     <h2 style="margin-top:24px">实时告警列表</h2>
-    <div class="card list-wrap" style="width:95%;">
+    <div class="card" id="listWrap" style="width:95%;">
         <p>加载中...</p>
     </div>
 
@@ -88,23 +89,26 @@ const mockData = {
 let pieChart = null;
 
 function renderChart(data){
-    document.querySelector('.total-num').innerText = data.total;
-    document.querySelector('.warn-num').innerText = data.warnCount;
-    document.querySelector('.normal-num').innerText = data.normalCount;
-    document.querySelector('.place-text').innerText = data.warnPlaces.join('、');
+    // 使用 getElementById
+    document.getElementById('totalCount').innerText = data.total ?? 0;
+    document.getElementById('warnCount').innerText = data.warnCount ?? 0;
+    document.getElementById('safeCount').innerText = data.normalCount ?? 0;
+
+    const places = data.warnPlaces ?? [];
+    document.getElementById('locationText').innerText = places.length>0 ? places.join('、') : "暂无";
 
     let html = "";
-    data.latest5.forEach(item=>{
-      const tag = item.status === "warn" ? "【告警】" : "【正常】";
-      html += `<p>${tag} ${item.time} ${item.content}</p>`
+    const list = data.latest5 ?? [];
+    list.forEach(item=>{
+        const tag = item.status === "warn" ? "【告警】" : "【正常】";
+        html += `<p>${tag} ${item.time} ${item.content}</p>`
     })
-    document.querySelector('.list-wrap').innerHTML = html;
+    document.getElementById('listWrap').innerHTML = html || "<p>暂无记录</p>";
 
     if(typeof Chart === 'undefined'){
         console.warn("Chart未加载，跳过饼图");
         return;
     }
-
     if(pieChart) pieChart.destroy();
     const ctx = document.getElementById('pieChart').getContext('2d');
     pieChart = new Chart(ctx,{
@@ -112,7 +116,7 @@ function renderChart(data){
         data:{
             labels:['违规告警','正常停放'],
             datasets:[{
-                data:[data.warnCount, data.normalCount],
+                data:[data.warnCount??0, data.normalCount??0],
                 backgroundColor:['#d93025','#28a745']
             }]
         },
@@ -121,30 +125,36 @@ function renderChart(data){
 }
 
 async function start(){
-    // 如果云SDK不存在，直接用模拟数据
     if(!window.cloudbase){
+        console.warn("SDK未加载，启用模拟数据");
         renderChart(mockData);
         return;
     }
     const app = window.cloudbase.init({
-      env: "cloudbase-d6gsqrixe917ec638"
-    });
+      env: "cloudbase-d6gsqrixe917ec638-1462376799",
+      traceUser: true
+});
+
     try{
+        // Web云开发必须先执行匿名登录
+        await app.auth().anonymousLogin();
+        console.log("web匿名登录成功");
+
         const res = await app.callFunction({
-          name:"dashboardStats",
-          data:{}
+            name:"dashboardStats",
+            data:{}
         })
+        console.log("云函数返回：",res.result);
         renderChart(res.result);
     }catch(err){
-        console.log("云函数调用失败，启用模拟数据", err);
+        console.error("调用失败，启用模拟数据",err);
         renderChart(mockData);
     }
 }
 
-// 延迟一小段时间再启动，等待外部脚本加载
 setTimeout(()=>{
     start();
-}, 600);
+},600);
 </script>
 </body>
 </html>
