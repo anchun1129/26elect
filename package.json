@@ -1,0 +1,27 @@
+{
+  "name": "26elect",
+  "version": "1.0.0",
+  "description": "> **环境 ID**\r > **AppID**：`wxc17854521997dc1c`",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anchun1129/26elect.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/anchun1129/26elect/issues"
+  },
+  "homepage": "https://github.com/anchun1129/26elect#readme",
+  "dependencies": {
+    "@vant/weapp": "^1.11.7"
+  }
+}
