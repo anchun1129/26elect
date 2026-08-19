@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "van-tag": "@vant/weapp/tag/index",
+    "van-popup": "@vant/weapp/popup/index",
+    "van-field": "@vant/weapp/field/index"
+  },
+  "navigationBarTitleText": "工单详情"
+}

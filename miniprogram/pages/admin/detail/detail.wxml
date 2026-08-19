@@ -1,0 +1,40 @@
+<view class="container">
+  <view class="card">
+    <view>工单详情</view>
+    <view class="row">工单ID：{{info.id}}</view>
+    <view class="row">标题：{{info.title}}</view>
+    <view class="row">状态：{{info.status}}</view>
+    <view class="row">问题描述：{{info.desc}}</view>
+    <view class="row">提交时间：{{info.time}}</view>
+  </view>
+
+  <view class="action-bar">
+    <button bindtap="openDealPopup">确认处理</button>
+    <button bindtap="openRejectPopup">驳回工单</button>
+  </view>
+
+  <!-- 确认处理弹窗 -->
+<view wx:if="{{showDealPopup}}" class="popup-mask" bindtap="closeDealPopup">
+  <view class="popup-box" catchtap="">
+    <view class="popup-title">确认处理工单</view>
+    <textarea placeholder="请输入处理备注" bindinput="onDealInput" value="{{dealRemark}}"></textarea>
+    <view class="popup-btns">
+      <button bindtap="closeDealPopup">取消</button>
+      <button bindtap="submitDeal">确定提交</button>
+    </view>
+  </view>
+</view>
+
+<!-- 驳回工单弹窗 -->
+<view wx:if="{{showRejectPopup}}" class="popup-mask" bindtap="closeRejectPopup">
+  <view class="popup-box" catchtap="">
+    <view class="popup-title">驳回工单</view>
+    <textarea placeholder="请输入驳回原因" bindinput="onRejectInput" value="{{rejectRemark}}"></textarea>
+    <view class="popup-btns">
+      <button bindtap="closeRejectPopup">取消</button>
+      <button bindtap="submitReject">确认驳回</button>
+    </view>
+  </view>
+</view>
+
+</view>
