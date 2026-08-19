@@ -1,4 +1,42 @@
 <!--pages/admin/detail/detail.wxml-->
+<van-cell-group>
+  <van-cell title="上报人" value="{{info.reporterName || '匿名'}}" />
+  <van-cell title="联系电话" value="{{info.reporterPhone || '未填写'}}" />
+</van-cell-group>
+
+<!-- 上报图片区域 -->
+<view class="img-block">
+  <view class="block-title">上报图片</view>
+  <scroll-view scroll-x class="img-scroll">
+    <view wx:for="{{info.imageList || []}}" wx:key="*this" class="img-item">
+      <image src="{{item}}" mode="aspectFill" bindtap="previewImage" data-src="{{item}}"></image>
+    </view>
+    <!-- 无图片占位 -->
+    <view wx:if="{{!(info.imageList && info.imageList.length>0)}}" class="empty-img">暂无上报图片</view>
+  </scroll-view>
+</view>
+
+<!-- AI审核结果区域 -->
+<van-cell-group>
+  <van-cell title="AI审核结果">
+    <view slot="value" class="ai-result">{{info.aiResult || "待AI识别"}}</view>
+  </van-cell>
+</van-cell-group>
+
+<!-- 历史处置记录占位模块 -->
+<view class="record-block">
+  <view class="block-title">历史处置记录</view>
+  <view wx:if="{{!(info.recordList && info.recordList.length>0)}}" class="empty-tip">暂无处置记录</view>
+  <view wx:else>
+    <view wx:for="{{info.recordList}}" wx:key="index" class="record-item">
+      <view class="record-time">{{item.time}}</view>
+      <view class="record-content">{{item.content}}</view>
+    </view>
+  </view>
+</view>
+
+
+
 <view class="container">
   <van-cell-group>
     <van-cell title="工单ID" value="{{info.id}}" />
