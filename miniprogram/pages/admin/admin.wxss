@@ -83,5 +83,22 @@ page {
 .btn-row van-button{
   flex:1;
 }
+.status-tag{
+  display: inline-block;
+  padding:6rpx 16rpx;
+  border-radius:8rpx;
+  font-size:24rpx;
+  color:#fff;
+  margin:10rpx 0;
+}
+.tag-warning{
+  background-color:#ff976a;
+}
+.tag-primary{
+  background-color:#1989fa;
+}
+.tag-success{
+  background-color:#07c160;
+}
 
 
