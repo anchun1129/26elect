@@ -6,7 +6,9 @@
     "pages/report/report",
     "pages/admin/admin",
     "pages/mine/mine",
-    "pages/record/record"
+    "pages/record/record",
+    "pages/help/help",
+    "pages/settings/settings"
   ],
   "usingComponents": {
     "van-card": "/miniprogram_npm/@vant/weapp/card/index",
