@@ -1,33 +1,18 @@
 {
   "pages": [
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
+
 
     "pages/admin/admin",
     "pages/admin/detail/detail",
     "pages/login/login",
-    
->>>>>>> origin/feature/zhang-admin
+
     "pages/home/home",
     "pages/index/index",
     "pages/report/report",
     
     "pages/mine/mine",
     "pages/record/record"
-<<<<<<< HEAD
-=======
-    "pages/admin/admin",
-    "pages/home/home",
-    "pages/index/index",
-    "pages/report/report",
-    
-    "pages/mine/mine"
-    
->>>>>>> Stashed changes
-=======
-    
->>>>>>> origin/feature/zhang-admin
+
   ],
   "usingComponents": {
     "van-button": "@vant/weapp/button/index",
