@@ -6,7 +6,8 @@
     "pages/report/report",
     "pages/admin/admin",
     "pages/mine/mine",
-    "pages/record/record"
+    "pages/record/record",
+    "pages/admin/stats/stats"
   ],
   "usingComponents": {
     "van-card": "/miniprogram_npm/@vant/weapp/card/index",
@@ -29,6 +30,10 @@
     "scope.userLocation": {
       "desc": "用于上报时选择违规地点"
     }
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "downloadFile": 10000
   },
   "window": {
     "backgroundColor": "#F6F6F6",
