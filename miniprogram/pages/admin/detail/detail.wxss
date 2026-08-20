@@ -36,3 +36,9 @@ textarea{
 .right-text{
   color:#999;
 }
+.finished-tip{
+  margin:30rpx 20rpx;
+  text-align:center;
+  color:#07c160;
+  font-size:30rpx;
+}

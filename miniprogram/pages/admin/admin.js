@@ -73,12 +73,14 @@ async getList(status) {
   },
 
   // 点击卡片跳转详情
-  goDetail(e) {
-    const reportId = e.currentTarget.dataset.id
+  goDetail(e){
+    console.log("点击卡片拿到的id：", e.currentTarget.dataset.id)
+    const id = e.currentTarget.dataset.id
     wx.navigateTo({
-      url: `/pages/admin/detail/detail?id=${reportId}`
+      url:'/pages/admin/detail/detail?id=' + id
     })
   },
+  
 
   // 打开处理弹窗
   openHandlePopup(e) {
