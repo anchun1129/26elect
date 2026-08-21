@@ -1,47 +1,8 @@
 <!--pages/admin/detail/detail.wxml-->
-<van-cell-group>
-  <van-cell title="上报人" value="{{info.reporterName || '匿名'}}" />
-  <van-cell title="联系电话" value="{{info.reporterPhone || '未填写'}}" />
-</van-cell-group>
-
-
-<!-- 上报图片区域 -->
-<view class="img-block">
-  <view class="block-title">上报图片</view>
-  <scroll-view scroll-x class="img-scroll">
-    <view wx:if="{{info.processImageFileID}}" class="img-item">
-      <image src="{{info.processImageFileID}}" mode="aspectFill"
-             bindtap="previewImage" data-src="{{info.processImageFileID}}"></image>
-    </view>
-    <!-- 无图片占位 -->
-    <view wx:else class="empty-img">暂无上报图片</view>
-  </scroll-view>
-</view>
-
-
-<!-- AI审核结果区域 -->
-<van-cell-group>
-  <van-cell title="AI审核结果">
-    <view slot="value" class="ai-result">{{info.aiResult || "待AI识别"}}</view>
-  </van-cell>
-</van-cell-group>
-
-
-<!-- 历史处置记录占位模块 -->
-<view class="record-block">
-  <view class="block-title">历史处置记录</view>
-  <view wx:if="{{!(info.recordList && info.recordList.length>0)}}" class="empty-tip">暂无处置记录</view>
-  <view wx:else>
-    <view wx:for="{{info.recordList}}" wx:key="index" class="record-item">
-      <view class="record-time">{{item.time}}</view>
-      <view class="record-content">{{item.content}}</view>
-    </view>
-  </view>
-</view>
-
-
 <view class="container">
   <van-cell-group>
+    <van-cell title="上报人" value="{{info.reporterName || '匿名'}}" />
+    <van-cell title="联系电话" value="{{info.reporterPhone || '未填写'}}" />
     <van-cell title="工单ID" value="{{info.id}}" />
     <van-cell title="工单状态" value="{{info.statusName}}" />
     <van-cell title="提交时间" value="{{info.time}}" />
@@ -50,50 +11,70 @@
   </van-cell-group>
 
 
-<!-- 待处理0、处理中1 才显示操作；已办结status=2隐藏操作区 -->
-<view wx:if="{{info.status !== 2}}" class="operate-box">
-  <view class="remark-area">
-    <text class="label">填写处置备注</text>
-    <textarea placeholder="请输入处置备注" value="{{remark}}" bindinput="onInputRemark"></textarea>
+
+  <!-- 上报图片区域 -->
+  <view class="img-block">
+    <view class="block-title">上报图片</view>
+    <scroll-view scroll-x class="img-scroll">
+      <block wx:if="{{info.imgList && info.imgList.length > 0}}">
+        <view wx:for="{{info.imgList}}" wx:key="index" class="img-item">
+          <image src="{{item}}" mode="aspectFill" bindtap="previewImage" data-src="{{item}}"></image>
+        </view>
+      </block>
+      <view wx:else class="empty-img">暂无上报图片</view>
+    </scroll-view>
   </view>
 
-  <!-- ✅页面主体上传佐证图片（确认处理、驳回都可用） -->
-  <view class="upload-area">
-    <text class="upload-label">上传佐证图片（选填）</text>
-    <view class="upload-box" bindtap="chooseAndUploadImg">
-      <van-icon name="photograph" color="#c8c9cc" size="60rpx"/>
+
+
+  <!-- AI审核结果区域 -->
+  <van-cell-group>
+    <van-cell title="AI审核结果" value="{{info.aiResult || '待AI识别'}}"/>
+  </van-cell-group>
+
+
+
+  <!-- 历史处置记录占位模块 -->
+  <view class="record-block">
+    <view class="block-title">历史处置记录</view>
+    <view wx:if="{{!(info.recordList && info.recordList.length>0)}}" class="empty-tip">暂无处置记录</view>
+    <view wx:else>
+      <view wx:for="{{info.recordList}}" wx:key="index" class="record-item">
+        <view class="record-time">{{item.time}}</view>
+        <view class="record-content">{{item.content}}</view>
+      </view>
     </view>
   </view>
 
-  <view class="btn-row">
-    <van-button type="warning" bindtap="handleRejectOpen">驳回工单</van-button>
-    <van-button type="primary" bindtap="handleConfirmWork">确认处理</van-button>
-  </view>
-</view>
 
 
-<!-- 工单已办结提示 -->
-<view wx:else class="finished-tip">
-  <text>✅该工单已经办结，不可再操作</text>
-</view>
+  <!-- 待处理0、处理中1 才显示操作；已办结status=2隐藏操作区 -->
+  <view wx:if="{{info.status !== 2}}" class="operate-box">
+    <view class="remark-area">
+      <text class="label">填写处置备注</text>
+      <textarea placeholder="请输入处置备注" value="{{remark}}" bindinput="onInputRemark"></textarea>
+    </view>
 
-</view>
+
+    <!-- 上传佐证图片 -->
+    <view class="upload-area">
+      <text class="upload-label">上传佐证图片（选填）</text>
+      <view class="upload-box" bindtap="chooseAndUploadImg">
+        <van-icon name="photograph" color="#c8c9cc" size="60rpx"/>
+      </view>
+    </view>
 
 
-<!-- 驳回弹窗（已删掉弹窗内部上传区域） -->
-<van-popup show="{{showRejectPopup}}" position="bottom">
-  <view class="popup-content">
-    <view class="pop-title">驳回工单</view>
-    <van-field
-      value="{{rejectRemark}}"
-      bindinput="onRejectInput"
-      placeholder="请填写驳回理由"
-      type="textarea"
-      rows="4"
-    />
-    <view class="pop-btn-row">
-      <van-button bindtap="handleRejectClose">取消</van-button>
-      <van-button type="warning" bindtap="handleRejectSubmit">确认驳回</van-button>
+    <view class="btn-row">
+      <van-button type="primary" bindtap="handleConfirmWork">确认处理</van-button>
+      <van-button type="warning" bindtap="handleFinishWork">办结工单</van-button>
     </view>
   </view>
-</van-popup>
+
+
+  <!-- 工单已办结提示 -->
+  <view wx:else class="finished-tip">
+    <text>✅该工单已经办结，不可再操作</text>
+  </view>
+
+</view>

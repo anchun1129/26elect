@@ -5,7 +5,7 @@
   min-height: 100vh;
 }
 .operate-box{
-  margin:20rpx;
+  margin:20rpx 0;
   background:#fff;
   border-radius:12rpx;
   padding:30rpx;
@@ -29,6 +29,7 @@ textarea{
   margin:20rpx 0;
   padding:20rpx;
   border-radius:8rpx;
+  box-sizing: border-box;
 }
 .save-btn{
   margin-top:20rpx;
@@ -41,4 +42,92 @@ textarea{
   text-align:center;
   color:#07c160;
   font-size:30rpx;
+}
+
+
+/* =====新增补齐wxml需要的样式===== */
+.img-block{
+  margin:20rpx 0;
+  background:#fff;
+  border-radius:12rpx;
+  padding:30rpx;
+}
+.block-title{
+  font-size:32rpx;
+  font-weight:bold;
+  margin-bottom:20rpx;
+}
+.img-scroll{
+  white-space: nowrap;
+}
+.img-item{
+  display:inline-block;
+  width:180rpx;
+  height:180rpx;
+  margin-right:20rpx;
+}
+.img-item image{
+  width:100%;
+  height:100%;
+  border-radius:8rpx;
+}
+.empty-img{
+  font-size:26rpx;
+  color:#999;
+}
+
+
+.record-block{
+  margin:20rpx 0;
+  background:#fff;
+  border-radius:12rpx;
+  padding:30rpx;
+}
+.empty-tip{
+  font-size:26rpx;
+  color:#999;
+}
+.record-item{
+  padding:20rpx 0;
+  border-bottom:1rpx solid #eee;
+}
+.record-time{
+  font-size:24rpx;
+  color:#999;
+}
+.record-content{
+  font-size:28rpx;
+  margin-top:8rpx;
+}
+
+
+.remark-area .label{
+  font-size:28rpx;
+  display:block;
+  margin-bottom:16rpx;
+}
+
+
+.upload-area{
+  margin:30rpx 0;
+}
+.upload-label{
+  font-size:28rpx;
+  color:#333;
+  display:block;
+  margin-bottom:16rpx;
+}
+.upload-box{
+  width:140rpx;
+  height:140rpx;
+  border:1rpx dashed #ddd;
+  border-radius:8rpx;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.btn-row{
+  display:flex;
+  gap:24rpx;
+  margin-top:30rpx;
 }

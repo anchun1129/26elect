@@ -28,30 +28,44 @@ Page({
     this.getList(idx)
   },
 
-  // 调用云函数获取工单列表 status:0待处理 1处理中 2已办结
- // 调用云函数获取工单列表 status:0待处理 1处理中 2已办结
-// 调用云函数获取工单列表 status:0待处理 1处理中 2已办结
-async getList(status) {
-  this.setData({ loading: true })
-  const res = await wx.cloud.callFunction({
-    name: "getWorkOrderList",
-    data: { status: status }
-  })
-  this.setData({ loading: false })
-  if (res.result.success) {
-    this.setData({
-      workList: res.result.data
-    })
-  } else {
-    wx.showToast({
-      title: res.result.msg || "获取列表失败",
-      icon: "none"
-    })
-  }
+  // tab下标转后端status字符串
+  tabIndexToStatusStr(index) {
+    const map = {
+      0: "pending",
+      1: "processing",
+      2: "processed"
+    }
+    return map[index]
+  },
+
+  // 调用云函数获取工单列表
+    // 调用云函数获取工单列表
+    async getList(tabIndex) {
+      this.setData({ loading: true })
+      // ⚠️云函数校验只接受数字0/1/2，直接传tabIndex数字，不要转英文
+      console.log("传给云函数的status数字：", tabIndex)
   
-},
-
-
+      const res = await wx.cloud.callFunction({
+        name: "getWorkOrderList",
+        data: { status: tabIndex }
+      })
+      this.setData({ loading: false })
+  
+      console.log("👉云函数全部返回结果：", res.result)
+      console.log("👉返回的data数组：", res.result.data)
+  
+      if (res.result.success) {
+        this.setData({
+          workList: res.result.data
+        })
+      } else {
+        wx.showToast({
+          title: res.result.msg || "获取列表失败",
+          icon: "none"
+        })
+      }
+    },
+  
 
   // 下拉刷新逻辑
   onPullDownRefresh() {
@@ -68,7 +82,7 @@ async getList(status) {
    */
   onLoad(options) {
     console.log('页面加载了');
-    // 页面加载，默认加载待处理 status=0
+    // 页面加载，默认加载待处理 tab下标0
     this.getList(0)
   },
 
@@ -80,7 +94,6 @@ async getList(status) {
       url:'/pages/admin/detail/detail?id=' + id
     })
   },
-  
 
   // 打开处理弹窗
   openHandlePopup(e) {
