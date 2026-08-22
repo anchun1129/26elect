@@ -1,0 +1,49 @@
+<view class="stats-page">
+  <view wx:if="{{loading}}" class="loading-wrap">
+    <van-loading size="36px">加载中...</van-loading>
+  </view>
+
+  <block wx:else>
+    <view class="card-section">
+      <view class="section-title">核心数据</view>
+      <view class="stat-grid">
+        <view class="stat-card">
+          <view class="stat-num">{{data.totalReports || 0}}</view>
+          <view class="stat-label">总上报数</view>
+        </view>
+        <view class="stat-card">
+          <view class="stat-num">{{data.todayReports || 0}}</view>
+          <view class="stat-label">今日上报</view>
+        </view>
+        <view class="stat-card">
+          <view class="stat-num highlight">{{data.handleRate || 0}}%</view>
+          <view class="stat-label">处理率</view>
+        </view>
+        <view class="stat-card">
+          <view class="stat-num warn">{{data.pending || 0}}</view>
+          <view class="stat-label">待处理</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="card-section">
+      <view class="section-title">处理状态明细</view>
+      <van-cell-group inset>
+        <van-cell title="AI已审核" value="{{data.ai_reviewed || 0}}" />
+        <van-cell title="已确认" value="{{data.confirmed || 0}}" />
+        <van-cell title="已处理" value="{{data.processed || 0}}" />
+        <van-cell title="已驳回" value="{{data.rejected || 0}}" />
+      </van-cell-group>
+    </view>
+
+    <view class="card-section">
+      <view class="section-title">状态概览</view>
+      <view class="tag-wrap">
+        <van-tag type="primary">待处理 {{data.pending || 0}}</van-tag>
+        <van-tag type="warning">AI审核 {{data.ai_reviewed || 0}}</van-tag>
+        <van-tag type="success">已处理 {{data.processed || 0}}</van-tag>
+        <van-tag type="danger">已驳回 {{data.rejected || 0}}</van-tag>
+      </view>
+    </view>
+  </block>
+</view>
