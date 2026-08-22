@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="SameSite" content="None">
     <title>电动车乱停放监测看板</title>
-    <script src="https://static.gtimg.com/cloud-base/sdk/1.10.0/cloudbase-web-sdk.js"></script>
+    <script src="https://static.cloudbase.net/cloudbase-js-sdk/latest/cloudbase.full.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
     <style>
         body {
@@ -89,7 +89,6 @@ const mockData = {
 let pieChart = null;
 
 function renderChart(data){
-    // 使用 getElementById
     document.getElementById('totalCount').innerText = data.total ?? 0;
     document.getElementById('warnCount').innerText = data.warnCount ?? 0;
     document.getElementById('safeCount').innerText = data.normalCount ?? 0;
@@ -133,13 +132,11 @@ async function start(){
     const app = window.cloudbase.init({
       env: "cloudbase-d6gsqrixe917ec638-1462376799",
       traceUser: true
-});
+    });
 
     try{
-        // Web云开发必须先执行匿名登录
-        await app.auth().anonymousLogin();
-        console.log("web匿名登录成功");
-
+        // 未登录用户访问权限已开启，跳过匿名登录，直接调用云函数
+        console.log("开始调用云函数 dashboardStats");
         const res = await app.callFunction({
             name:"dashboardStats",
             data:{}
@@ -154,7 +151,7 @@ async function start(){
 
 setTimeout(()=>{
     start();
-},600);
+},800);
 </script>
 </body>
 </html>
