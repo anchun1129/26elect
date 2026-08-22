@@ -13,7 +13,7 @@ exports.main = async (event, context) => {
 
   try {
     // 组装查询条件
-    const whereCond = { openid: OPENID }
+    const whereCond = {_openid: OPENID}
     if (status && status.trim()) {
       whereCond.status = status.trim()
     }

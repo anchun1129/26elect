@@ -11,28 +11,32 @@
   <view class="user-id">编号：Jumin001</view>
 </view>
 
-<!-- 数据卡片区域 -->
-<view style="margin: 0 25rpx;">
-  <van-card title="累计上报工单" desc="{{totalNum}} 条" />
-  <view style="height:20rpx;"></view>
-  <van-card title="已办结工单" desc="{{finishNum}} 条" />
+<!-- 数据卡片区域：并排小格子 -->
+<view style="margin: 0 25rpx; display: flex; justify-content: space-between; gap: 20rpx;">
+  <!-- 累计工单 -->
+  <view style="flex: 1; background: #fff; padding: 20rpx 0; border-radius: 12rpx; text-align: center; box-shadow: 0 2rpx 6rpx rgba(0,0,0,0.05);">
+    <view style="font-size: 40rpx; font-weight: bold; color: #1677FF;">{{totalNum}}</view>
+    <view style="font-size: 24rpx; color: #999; margin-top: 8rpx;">累计上报</view>
+  </view>
+  
+  <!-- 已办结工单 -->
+  <view style="flex: 1; background: #fff; padding: 20rpx 0; border-radius: 12rpx; text-align: center; box-shadow: 0 2rpx 6rpx rgba(0,0,0,0.05);">
+    <view style="font-size: 40rpx; font-weight: bold; color: #52C41A;">{{finishNum}}</view>
+    <view style="font-size: 24rpx; color: #999; margin-top: 8rpx;">已办结</view>
+  </view>
 </view>
 
 <!-- 功能菜单列表 Vant Cell分组 -->
 <van-cell-group style="margin: 30rpx 25rpx; border-radius: 12rpx; overflow: hidden;">
-  <van-cell title="我的上报记录" is-link bind:click="goRecord" />
-  <van-cell title="修改个人信息" is-link bind:click="goEditInfo" />
-  <van-cell title="使用帮助" is-link bind:click="goHelp" />
+  <view bindtap="goRecord" style="display: flex; justify-content: space-between; padding: 20rpx 25rpx; background: #fff; border-bottom: 1px solid #f5f5f5;">
+    <text>我的上报记录</text>
+    <text style="color: #999;">></text>
+  </view>
+  <van-cell title="账号设置" is-link bind:click="goSettings" />
+<van-cell title="系统使用说明" is-link bind:click="goHelp" />
   <van-cell title="退出登录" bind:click="logout" />
 </van-cell-group>
 
 <!-- 底部版本标注 -->
 <view class="version" style="text-align:center; margin-top:80rpx; color:#999; font-size:24rpx;">当前版本：v1.0</view>
-<view class="version">当前版本：v1.0</view>
 
-<!-- ========== 添加底部TabBar ========== -->
-<van-tabbar active="{{ active }}" bind:change="onChange">
-  <van-tabbar-item icon="home-o">首页</van-tabbar-item>
-  <van-tabbar-item icon="edit">上报</van-tabbar-item>
-  <van-tabbar-item icon="user-o">我的</van-tabbar-item>
-</van-tabbar>

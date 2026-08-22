@@ -16,12 +16,7 @@ Page({
   },
 
   // 底部vant-tabbar切换（现在用小程序原生tabBar，这个函数可以保留但不会触发）
-  onChange(event) {
-    const index = event.detail;
-    const paths = ['/pages/home/home', '/pages/report/report', '/pages/mine/mine'];
-    wx.switchTab({
-      url: paths[index]
-    });
+
   onChange(e) {
     const index = e.detail
     if (index === 0) {
