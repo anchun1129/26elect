@@ -100,5 +100,9 @@ page {
 .tag-success{
   background-color:#07c160;
 }
+.stat-btn-wrap{
+  padding: 12rpx 24rpx;
+  text-align: right;
+}
 
 

@@ -5,6 +5,7 @@
     "pages/admin/admin",
     "pages/admin/detail/detail",
     "pages/login/login",
+    "pages/admin/stats/stats",
 
     "pages/home/home",
     "pages/index/index",
