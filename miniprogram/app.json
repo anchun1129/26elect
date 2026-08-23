@@ -7,6 +7,7 @@
     "pages/admin/admin",
     "pages/mine/mine",
     "pages/record/record",
+    "pages/admin/stats/stats",
     "pages/help/help",
     "pages/settings/settings"
   ],
@@ -31,6 +32,10 @@
     "scope.userLocation": {
       "desc": "用于上报时选择违规地点"
     }
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "downloadFile": 10000
   },
   "window": {
     "backgroundColor": "#F6F6F6",
