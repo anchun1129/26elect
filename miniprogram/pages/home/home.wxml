@@ -4,6 +4,8 @@
     <view class="welcome-title">你好，居民朋友 👋</view>
     <view class="welcome-desc">发现违规电动车？一键上报，共建安全社区</view>
   </view>
+<!-- 只有管理员role=1的时候，这个按钮才会出现 -->
+<van-button wx:if="{{isAdmin}}" type="warning" block bindtap="goAdmin">进入管理员后台</van-button>
 
   <!-- 快速上报入口 -->
   <view class="action-card" bindtap="goReport">
