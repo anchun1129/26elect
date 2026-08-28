@@ -1,3 +1,4 @@
+
 .stats-page {
   padding: 20rpx;
   background-color: #f5f7fa;
@@ -65,3 +66,4 @@
   gap: 20rpx;
   padding: 0 10rpx;
 }
+

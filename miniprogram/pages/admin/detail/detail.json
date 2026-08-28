@@ -1,13 +1,12 @@
 {
   "usingComponents": {
-    "van-tab": "@vant/weapp/tab/index",
-    "van-tabs": "@vant/weapp/tabs/index",
+    "van-button": "@vant/weapp/button/index",
     "van-popup": "@vant/weapp/popup/index",
     "van-field": "@vant/weapp/field/index",
-    "van-button": "@vant/weapp/button/index",
+    "van-icon": "@vant/weapp/icon/index",
+    "van-tag": "@vant/weapp/tag/index",
     "van-uploader": "@vant/weapp/uploader/index",
     "van-loading": "@vant/weapp/loading/index"
   },
-  "enablePullDownRefresh": true,
-  "backgroundTextStyle": "dark"
+  "navigationBarTitleText": "工单管理"
 }
