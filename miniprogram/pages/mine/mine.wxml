@@ -32,8 +32,8 @@
     <text>我的上报记录</text>
     <text style="color: #999;">></text>
   </view>
-  <van-cell title="修改个人信息" is-link bind:click="goEditInfo" />
-  <van-cell title="使用帮助" is-link bind:click="goHelp" />
+  <van-cell title="账号设置" is-link bind:click="goSettings" />
+<van-cell title="系统使用说明" is-link bind:click="goHelp" />
   <van-cell title="退出登录" bind:click="logout" />
 </van-cell-group>
 

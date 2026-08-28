@@ -55,11 +55,15 @@ Page({
   },
 
   // 空占位函数
-  goEditInfo() {
-    wx.showToast({ title: "功能开发中", icon: "none" })
+  goSettings() {
+    wx.navigateTo({
+      url: '/pages/settings/settings'
+    })
   },
   goHelp() {
-    wx.showToast({ title: "功能开发中", icon: "none" })
+    wx.navigateTo({
+      url: '/pages/help/help'
+    })
   },
   logout() {
     wx.showModal({
